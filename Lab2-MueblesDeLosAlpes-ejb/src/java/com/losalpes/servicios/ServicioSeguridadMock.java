@@ -16,6 +16,7 @@ import com.losalpes.bos.TipoUsuario;
 import com.losalpes.bos.Usuario;
 import com.losalpes.excepciones.AutenticacionException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Clase que se encarga de la autenticación de un usuario en el sistema
@@ -83,6 +84,33 @@ public class ServicioSeguridadMock implements IServicioSeguridad
         }
 
         return u;
+    }
+
+    /**
+     * Agrega un nuevo usuario al sistema
+     * @param usuario nuevo Usuario del sistema
+     */
+    @Override
+    public void agregarUsuario(Usuario usuario) {
+      usuarios.add(usuario);
+    }
+
+    /**
+     * Devuelve los Usuarios del sistema
+     * @return Usuarios Arreglo con todos los usuarios del sistema
+     */
+    @Override
+    public List<Usuario> darUsuarios() {
+           return usuarios;
+    }
+
+    /**
+     * Elimina un Usuario del Sistema
+     * @param usuario Usuario a eliminar
+     */
+    @Override
+    public Boolean removerUsuario(Usuario usuario) {
+          return usuarios.remove(usuario);
     }
 
 }

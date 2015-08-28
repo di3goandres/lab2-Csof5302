@@ -72,7 +72,8 @@ public class Mueble
         this.descripcion = descripcion;
         this.tipo = tipo;
     }
-
+    
+   
     //-----------------------------------------------------------
     // Getters y setters
     //-----------------------------------------------------------

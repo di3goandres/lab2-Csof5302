@@ -71,6 +71,7 @@ public class ServicioCatalogoMock implements IServicioCatalogo
     @Override
     public void agregarMueble(Mueble mueble)
     {
+       
         muebles.add(mueble);
     }
 
@@ -83,5 +84,13 @@ public class ServicioCatalogoMock implements IServicioCatalogo
     {
         return muebles;
     }
+
+    @Override
+    public Boolean removerMueble(Mueble mueble) {
+   //    mueble.setNombre("COCO");
+       return muebles.remove(mueble);
+     
+    }
+    
 
 }

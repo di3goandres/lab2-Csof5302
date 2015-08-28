@@ -115,5 +115,16 @@ public class ServicioCatalogoMockTest
         List result = instance.darMuebles();
         assertNotNull(result);          
     }
+    
+    @Test
+    public void testEliminarMuebles()
+    {        
+        System.out.println("EliminarMuebles");
+        Mueble mueble = new Mueble("RFPrueba","SillaTest","Una confortable silla.",TipoMueble.Interior);
+        ServicioCatalogoMock instance = new ServicioCatalogoMock();
+        instance.agregarMueble(mueble);
+        boolean result = instance.removerMueble(mueble);
+        assertTrue(result);          
+    }
 
 }
