@@ -12,6 +12,8 @@
 
 package com.losalpes.servicios;
 
+import com.losalpes.bos.Departamentos;
+import com.losalpes.bos.Paises;
 import com.losalpes.bos.TipoUsuario;
 import com.losalpes.bos.Usuario;
 import com.losalpes.excepciones.AutenticacionException;
@@ -47,8 +49,8 @@ public class ServicioSeguridadMock implements IServicioSeguridad
         usuarios=new ArrayList<Usuario>();
 
         //Agrega usuarios al sistema
-        usuarios.add(new Usuario("admin","adminadmin",TipoUsuario.ADMINISTRADOR));
-        usuarios.add(new Usuario("client","clientclient",TipoUsuario.CLIENTE));
+        usuarios.add(new Usuario("admin","adminadmin",TipoUsuario.ADMINISTRADOR, Paises.COLOMBIA, Departamentos.AMAZONAS, "1077845378"));
+        usuarios.add(new Usuario("client","clientclient",TipoUsuario.CLIENTE, Paises.COLOMBIA, Departamentos.HUILA, "1077845379"));
 
     }
 

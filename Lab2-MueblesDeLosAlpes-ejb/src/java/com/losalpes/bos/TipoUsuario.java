@@ -16,5 +16,5 @@ package com.losalpes.bos;
  */
 public enum TipoUsuario
 {
-ADMINISTRADOR, CLIENTE, COCO
+ADMINISTRADOR, CLIENTE
 }
