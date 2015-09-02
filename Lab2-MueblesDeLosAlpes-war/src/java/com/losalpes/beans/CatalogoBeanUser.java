@@ -13,9 +13,13 @@ package com.losalpes.beans;
 import com.losalpes.bos.Departamentos;
 import com.losalpes.bos.Paises;
 import com.losalpes.bos.TipoMueble;
+import com.losalpes.bos.TipoPersona;
 import com.losalpes.bos.TipoUsuario;
+import com.losalpes.bos.TiposDocumentos;
 import com.losalpes.bos.Usuario;
+import com.losalpes.servicios.IServicioSeguridad;
 import com.losalpes.servicios.IServicioUsuario;
+import com.losalpes.servicios.ServicioSeguridadMock;
 import com.losalpes.servicios.ServicioUsuarioMock;
 import java.util.List;
 import javax.faces.application.FacesMessage;
@@ -25,6 +29,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
+import org.primefaces.context.RequestContext;
 
 /**
  * Managed bean encargado del catálogo de muebles en el sistema
@@ -46,7 +51,7 @@ public class CatalogoBeanUser {
      * Relación con la interfaz que provee los servicios necesarios del
      * catálogo.
      */
-    private IServicioUsuario catalogo;
+    private IServicioSeguridad catalogo;
 
     //-----------------------------------------------------------
     // Constructor
@@ -56,7 +61,7 @@ public class CatalogoBeanUser {
      */
     public CatalogoBeanUser() {
         usuario = new Usuario();
-        catalogo = new ServicioUsuarioMock();
+        catalogo = new ServicioSeguridadMock();
     }
 
     //-----------------------------------------------------------
@@ -101,15 +106,14 @@ public class CatalogoBeanUser {
         if (((String) arg2).length() > 5) {
 
             String nombre = (String) arg2.toString();
-           //throw new ValidatorException(new FacesMessage(nombre));
-          
+            //throw new ValidatorException(new FacesMessage(nombre));
+
             List<Usuario> consulta = getUsuarios();
 
             for (Usuario consulta1 : consulta) {
-                System.out.println("entre a consulta1: " +consulta1.getIdent());
-                if (consulta1.getIdent().contains(nombre) ) {
+                System.out.println("entre a consulta1: " + consulta1.getNumerodocumento());
+                if (consulta1.getNumerodocumento().contains(nombre)) {
                     throw new ValidatorException(new FacesMessage("Identificación ya existe"));
-
                 }
             }
 
@@ -120,21 +124,12 @@ public class CatalogoBeanUser {
     }
 
     public void agregarUsuarios() {
-        boolean Existe = false;
-        List<Usuario> consulta = getUsuarios();
-        System.out.println("entre al nombre");
-        for (Usuario consulta1 : consulta) {
-            if (consulta1.getNombre() == usuario.getNombre()) {
-                System.out.println("entre al nombre exito de pordios");
-                Existe = true;
-                return;
-            }
-        }
+        usuario.setTipo(TipoUsuario.CLIENTE);
+        catalogo.agregarUsuario(usuario);
+        usuario = new Usuario();
+        
+       
 
-        if (!Existe) {
-            catalogo.agregarUsuario(usuario);
-            usuario = new Usuario();
-        }
     }
 
     /**
@@ -146,7 +141,7 @@ public class CatalogoBeanUser {
     }
 
     public void Eliminar(Usuario m) {
-        System.out.println("asdf");
+        System.out.println("Entre a eliminar");
         catalogo.removerUsuario(m);
 
     }
@@ -178,6 +173,26 @@ public class CatalogoBeanUser {
 
     public SelectItem[] getTiposDepartamentos() {
         Departamentos[] tipos = Departamentos.values();
+        SelectItem[] sitems = new SelectItem[tipos.length];
+
+        for (int i = 0; i < sitems.length; i++) {
+            sitems[i] = new SelectItem(tipos[i]);
+        }
+        return sitems;
+    }
+
+    public SelectItem[] getTiposPersona() {
+        TipoPersona[] tipos = TipoPersona.values();
+        SelectItem[] sitems = new SelectItem[tipos.length];
+
+        for (int i = 0; i < sitems.length; i++) {
+            sitems[i] = new SelectItem(tipos[i]);
+        }
+        return sitems;
+    }
+    
+     public SelectItem[] getTiposDocumentos() {
+        TiposDocumentos[] tipos = TiposDocumentos.values();
         SelectItem[] sitems = new SelectItem[tipos.length];
 
         for (int i = 0; i < sitems.length; i++) {

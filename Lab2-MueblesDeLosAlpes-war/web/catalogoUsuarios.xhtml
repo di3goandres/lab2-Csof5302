@@ -3,7 +3,7 @@
     Document   : catalogo
 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition template="/main-template.xhtml"
+<ui:composition template="/inicioTemplate.xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -11,75 +11,10 @@
 
     <ui:param name="titulo" value="Catálogo de Usuarios" />
     <ui:define name="body">
-        <h:form>
 
-            <!-- Panel para agregar un nuevo mueble -->
-            <h:panelGroup>
-                <h:panelGrid width="100px" columns="1" columnClasses="pnlGrdClass, pnlGrdClass, pnlGrdClassLong">
-                    <h:outputLabel for="TxtReferencia"
-                                   value="Nombre"/>
-                    <h:inputText id="TxtReferencia"
-                                 size="20"
-                                 maxlength="20"
-                                 label="Nombre"
-                                 value="#{CatalogoBeanUser.usuario.nombre}"
-                                 required="true"
-                                 >
-                        <f:validateLength minimum="1"/>
-                    </h:inputText>
-                    <h:message id="nameMsg" for="TxtReferencia" />
-                </h:panelGrid>
-
-                <h:panelGrid width="100px" columns="1" columnClasses="pnlGrdClass, pnlGrdClass, pnlGrdClassLong">
-                    <h:outputLabel for="TxtNombre"
-                                   value="Nombre" />
-                    <h:inputText id="TxtNombre"
-                                 maxlength="20"
-                                 size="20"
-                                 value="#{CatalogoBeanUser.usuario.contraseña}"
-                                 label="Nombre"
-                                 required="true">
-                        <f:validateLength minimum="1"/>
-                    </h:inputText>
-                    <h:message id="pwMsg" for="TxtNombre" />
-                </h:panelGrid>
-
-                <h:panelGrid>
-                    <h:selectOneMenu value="#{CatalogoBeanUser.usuario.tipo}">
-                        <f:selectItems value="#{CatalogoBeanUser.tiposUsuario}" />
-                    </h:selectOneMenu>
-                </h:panelGrid>
-                <h:inputText id="idNumero" validator="#{CatalogoBeanUser.validate}"  value="#{CatalogoBeanUser.usuario.ident}">
-                </h:inputText>
-                
-                <h:message for="idNumero"></h:message>
-                
-                
-                <h:panelGrid>
-                    <h:selectOneMenu value="#{CatalogoBeanUser.usuario.pais}">
-                        <f:selectItems value="#{CatalogoBeanUser.tiposPaises}" />
-                    </h:selectOneMenu>
-                </h:panelGrid>
-
-                <h:panelGrid>
-                    <h:selectOneMenu value="#{CatalogoBeanUser.usuario.departamento}">
-                        <f:selectItems value="#{CatalogoBeanUser.tiposDepartamentos}" />
-                    </h:selectOneMenu>
-                </h:panelGrid>
-
-
-
-
-
-                <h:commandButton value="Agregar" action="#{CatalogoBeanUser.agregarUsuarios}" />
-                <h:commandButton value="Limpiar" action="#{CatalogoBeanUser.limpiar}" />
-            </h:panelGroup>
-
-        </h:form>
-        <h:form>
-
-
-            <!-- Se crea una tabla donde se presentan los muebles del sistema -->
+       
+        <h:form id="consultaUsuarios">
+            <!-- Se crea una tabla donde se presentan los clientes  del sistema -->
             <p:dataTable
                 id="data"
                 value="#{CatalogoBeanUser.usuarios}"
@@ -110,7 +45,7 @@
                     <h:outputText value="#{file.departamento}" />
                 </p:column>
                 <p:column headerText="Identificacion">
-                    <h:outputText value="#{file.ident}" />
+                    <h:outputText value="#{file.numerodocumento}" />
                 </p:column>
 
                 <!--                    <p:column headerText="Tipo">
