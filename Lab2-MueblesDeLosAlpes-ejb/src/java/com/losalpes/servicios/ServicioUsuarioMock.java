@@ -7,7 +7,9 @@ package com.losalpes.servicios;
 
 import com.losalpes.bos.Departamentos;
 import com.losalpes.bos.Paises;
+import com.losalpes.bos.TipoPersona;
 import com.losalpes.bos.TipoUsuario;
+import com.losalpes.bos.TiposDocumentos;
 import com.losalpes.bos.Usuario;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +41,13 @@ public class ServicioUsuarioMock implements IServicioUsuario {
         usuarios=new ArrayList<Usuario>();
 
         //Agrega usuarios al sistema
-        usuarios.add(new Usuario("admin","adminadmin",TipoUsuario.ADMINISTRADOR , Paises.COLOMBIA,Departamentos.AMAZONAS, "1077845378"));
-        usuarios.add(new Usuario("client","clientclient",TipoUsuario.CLIENTE, Paises.COLOMBIA, Departamentos.HUILA, "1077845379"));
+      usuarios.add(new Usuario("admin", "adminadmin", TipoUsuario.ADMINISTRADOR, Paises.COLOMBIA,
+                Departamentos.AMAZONAS, "1077845378", TiposDocumentos.NIT, "admin",
+                "5555", "3186937253", "Av siempre viva", "Administrador del sistema", "admin@admin.com.co",
+                TipoPersona.JURIDICA));
+        usuarios.add(new Usuario("client", "clientclient", TipoUsuario.CLIENTE, Paises.COLOMBIA,
+                Departamentos.HUILA, "1077845379", TiposDocumentos.CEDULA, "Cliente",
+                "5555", "3186937253", "Av siempre viva", "Administrador del sistema", "cliente@muebles.com.co", TipoPersona.NATURAL));
 
     }
 
