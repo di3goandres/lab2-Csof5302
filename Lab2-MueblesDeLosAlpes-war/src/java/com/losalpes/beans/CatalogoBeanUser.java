@@ -22,6 +22,7 @@ import com.losalpes.servicios.IServicioUsuario;
 import com.losalpes.servicios.ServicioSeguridadMock;
 import com.losalpes.servicios.ServicioUsuarioMock;
 import java.util.List;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -30,6 +31,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.RowEditEvent;
 
 /**
  * Managed bean encargado del catálogo de muebles en el sistema
@@ -47,6 +49,30 @@ public class CatalogoBeanUser {
      */
     private Usuario usuario;
 
+    private TiposDocumentos tiposDocumentos;
+
+    private String tiposDocument[] = {"NIT", "CEDULA"};
+
+    public String[] getTiposDocument() {
+        return tiposDocument;
+    }
+
+    public void setTiposDocument(String[] tiposDocument) {
+        this.tiposDocument = tiposDocument;
+    }
+
+    public IServicioSeguridad getCatalogo() {
+        return catalogo;
+    }
+
+    public void setCatalogo(IServicioSeguridad catalogo) {
+        this.catalogo = catalogo;
+    }
+
+    public void setTiposDocumentos(TiposDocumentos tiposDocumentos) {
+        this.tiposDocumentos = tiposDocumentos;
+    }
+
     /**
      * Relación con la interfaz que provee los servicios necesarios del
      * catálogo.
@@ -62,6 +88,7 @@ public class CatalogoBeanUser {
     public CatalogoBeanUser() {
         usuario = new Usuario();
         catalogo = new ServicioSeguridadMock();
+
     }
 
     //-----------------------------------------------------------
@@ -124,11 +151,14 @@ public class CatalogoBeanUser {
     }
 
     public void agregarUsuarios() {
+        String Nombre = usuario.getNombreCompletoCliente();
         usuario.setTipo(TipoUsuario.CLIENTE);
         catalogo.agregarUsuario(usuario);
         usuario = new Usuario();
         
-       
+        FacesMessage msg = new FacesMessage("Usuario Registrado correctamente.", Nombre);
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+
 
     }
 
@@ -142,7 +172,10 @@ public class CatalogoBeanUser {
 
     public void Eliminar(Usuario m) {
         System.out.println("Entre a eliminar");
+        String usuar = m.getNumerodocumento();
         catalogo.removerUsuario(m);
+        FacesMessage msg = new FacesMessage("Usuario Eliminado", usuar);
+        FacesContext.getCurrentInstance().addMessage(null, msg);
 
     }
 
@@ -190,15 +223,56 @@ public class CatalogoBeanUser {
         }
         return sitems;
     }
-    
-     public SelectItem[] getTiposDocumentos() {
-        TiposDocumentos[] tipos = TiposDocumentos.values();
-        SelectItem[] sitems = new SelectItem[tipos.length];
 
-        for (int i = 0; i < sitems.length; i++) {
-            sitems[i] = new SelectItem(tipos[i]);
+    public SelectItem[] getTiposDocumentos() {
+        TiposDocumentos[] tipos = TiposDocumentos.values();
+        SelectItem[] sitems = new SelectItem[3];
+        SelectItem a = new SelectItem();
+        a.setNoSelectionOption(false);
+        
+        a.setLabel("Seleccione uno");
+
+        sitems[0] = a;
+       
+        for (int i = 1; i < tipos.length+1; i++) {
+
+            sitems[i] = new SelectItem(tipos[i-1]);
+
         }
         return sitems;
+
     }
 
+    public void tipoPersonaChange() {
+        if (usuario.getTipoPersona() == TipoPersona.JURIDICA) {
+            String array[] = {"NIT"};
+            setTiposDocument(array);
+
+        } else {
+            String array[] = {"CEDULA"};
+            setTiposDocument(array);
+
+        }
+
+    }
+
+    public void onRowEdit(RowEditEvent event) {
+        FacesMessage msg = new FacesMessage("Usuario Editado", ((Usuario) event.getObject()).getNumerodocumento());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void onRowCancel(RowEditEvent event) {
+        FacesMessage msg = new FacesMessage("Edit Cancelled", ((Usuario) event.getObject()).getNumerodocumento());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void onCellEdit(CellEditEvent event) {
+        Object oldValue = event.getOldValue();
+        Object newValue = event.getNewValue();
+
+        if (newValue != null && !newValue.equals(oldValue)) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+    }
 }

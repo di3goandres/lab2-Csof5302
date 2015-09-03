@@ -21,18 +21,15 @@
             <table width="800px" align="center">
                 <tr>
                     <td align="left">   
-
-                        <h:form id="menuUsuarios">
+                        <h:form>
                             <h:graphicImage value="./resources/img/template/header.png" />
                             <p:megaMenu orientation="#{megaMenuView.orientation}" style="margin-top:20px" model="#{menuBean.model}">
-                                <!--  <p:menuitem value="Clientes" url="catalogoUsuarios.xhtml" icon="ui-icon-person" />
-                                  <p:menuitem value="Muebles" url="catalogo.xhtml" icon="ui-icon-contact" />
-  
-  
-  
-                                  <p:menuitem value="Quit" url="index.xhtml" icon="ui-icon-close" />-->
+
                             </p:megaMenu>
                         </h:form>
+                         <h:outputText value="Bienvenido:"></h:outputText>
+                        <h:outputText value="#{loginBean.sesionUsuario}"></h:outputText>
+
 
 
 

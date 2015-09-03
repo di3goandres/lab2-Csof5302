@@ -27,31 +27,36 @@ public class MenuBean {
      */
     public MenuBean() {
         model = new DefaultMenuModel();
-      
-       
+
         DefaultMenuItem menu1 = new DefaultMenuItem("Clientes Consultar");
         menu1.setUrl("catalogoUsuarios.xhtml");
         menu1.setIcon("ui-icon-person");
-      
+
         model.addElement(menu1);
-        
-         DefaultMenuItem menu4 = new DefaultMenuItem("Crear Clientes");
+
+        DefaultMenuItem menu4 = new DefaultMenuItem("Crear Clientes");
         menu4.setUrl("CrearUsuario.xhtml");
         menu4.setIcon("ui-icon-person");
-      
+
         model.addElement(menu4);
 
         DefaultMenuItem menu2 = new DefaultMenuItem("Muebles");
         menu2.setUrl("catalogo.xhtml");
         menu2.setIcon("ui-icon-contact");
         model.addElement(menu2);
+        
+        
+         DefaultMenuItem menu5 = new DefaultMenuItem("Carrito");
+        menu5.setUrl("catalogoCarritos.xhtml");
+        menu5.setIcon("ui-icon-arrowthickstop-1-s");
+        model.addElement(menu5);
 
         DefaultMenuItem menu3 = new DefaultMenuItem("Salir");
         menu3.setUrl("index.xhtml");
         menu3.setIcon("ui-icon-close");
+        menu3.setCommand("{#loginBean.quit}");
+
         model.addElement(menu3);
-        
-      
 
     }
 

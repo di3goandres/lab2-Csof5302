@@ -12,7 +12,7 @@
     <ui:param name="titulo" value="Catálogo de muebles" />
     <ui:define name="body">
         <h:form>
-
+            <p:growl id="msgs" showDetail="true"/>
             <!-- Panel para agregar un nuevo mueble -->
             <h:panelGroup>
                 <h:panelGrid width="100px" columns="1" columnClasses="pnlGrdClass, pnlGrdClass, pnlGrdClassLong">
@@ -108,6 +108,9 @@
                 </p:column>
                 <p:column headerText="Eliminar">
                     <h:commandLink id="Link3" value="Delete" action="#{catalogoBean.Eliminar(file)}" />
+                </p:column>
+                <p:column headerText="Agregar Al carrito">
+                    <h:commandLink id="Link4" value="Agregar" action="#{carritoBean.AgregarCarrito(file)}" />
                 </p:column>
 
             </p:dataTable>

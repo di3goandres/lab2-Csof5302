@@ -46,12 +46,16 @@
 
 
                     <h:outputText value="Tipo de persona" />
-                    <h:selectOneMenu value="#{CatalogoBeanUser.usuario.tipoPersona}">
+                    <h:selectOneMenu  value="#{CatalogoBeanUser.usuario.tipoPersona}" >
+
                         <f:selectItems value="#{CatalogoBeanUser.tiposPersona}" />
                     </h:selectOneMenu>
+
                     <h:outputText value="Tipo de Identificacion" />
-                    <h:selectOneMenu value="#{CatalogoBeanUser.usuario.tipoDocumento}">
+                    <h:selectOneMenu id="tipoident" value="#{CatalogoBeanUser.usuario.tipoDocumento}" required="true">
+
                         <f:selectItems value="#{CatalogoBeanUser.tiposDocumentos}" />
+
                     </h:selectOneMenu>
                     <h:outputText value="Numero de identificacion*" />
                     <h:inputText id="idNumero" validator="#{CatalogoBeanUser.validate}"  value="#{CatalogoBeanUser.usuario.numerodocumento}" ></h:inputText>
@@ -139,7 +143,8 @@
             </h:panelGroup>
 
         </h:form>
-        <h:form id="consultaUsuarios">
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true"/>
             <!-- Se crea una tabla donde se presentan los clientes  del sistema -->
             <p:dataTable
                 id="data"
@@ -150,37 +155,63 @@
                 paginator="true"
                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                 resizableColumns="true"
-                rows="5">
+                rows="8" editable="true">
 
+                <p:ajax event="rowEdit" listener="#{CatalogoBeanUser.onRowEdit}" update=":form:msgs" />
+                <p:ajax event="rowEditCancel" listener="#{CatalogoBeanUser.onRowCancel}" update=":form:msgs" />
 
-                <p:column headerText="Nombre" sortBy="#{file.nombre}">
-                    <h:outputText value="#{file.nombre}" />
+                <p:column headerText="Nombre">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{file.nombre}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{file.nombre}" style="width:100%" label="Nombre"/></f:facet>
+                    </p:cellEditor>
                 </p:column>
 
                 <p:column headerText="contraseña">
-                    <h:outputText value="#{file.contraseña}" />
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{file.contraseña}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{file.contraseña}" style="width:100%" label="contraseña"/></f:facet>
+
+                    </p:cellEditor>
                 </p:column>
 
+                <p:column headerText="Nombre Completo">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{file.nombreCompletoCliente}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{file.nombreCompletoCliente}" style="width:100%" label="Nombre Completo"/></f:facet>
+
+                    </p:cellEditor>
+                </p:column>
                 <p:column headerText="Tipo Usuario">
                     <h:outputText value="#{file.tipo}" />
                 </p:column>
                 <p:column headerText="Pais">
                     <h:outputText value="#{file.pais}" />
                 </p:column>
-                <p:column headerText="Departamento">
-                    <h:outputText value="#{file.departamento}" />
+                 <p:column headerText="Departamento">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{file.departamento}" /></f:facet>
+
+                        <f:facet name="input">
+                            <h:selectOneMenu value="#{file.departamento}">
+                                <f:selectItems value="#{CatalogoBeanUser.tiposDepartamentos}" />
+                            </h:selectOneMenu>
+                        </f:facet>
+                    </p:cellEditor>
                 </p:column>
                 <p:column headerText="Identificacion">
                     <h:outputText value="#{file.numerodocumento}" />
                 </p:column>
 
-                <!--                    <p:column headerText="Tipo">
-                                        <h:outputText value="#{file.tipo}" />
-                                    </p:column>-->
-                <p:column headerText="Eliminar">
+                <p:column style="width:32px" headerText="Eliminar">
                     <h:commandLink id="Link3" value="Delete" action="#{CatalogoBeanUser.Eliminar(file)}" />
                 </p:column>
 
+
+                <p:column style="width:32px" headerText="Editar" >
+                    <p:rowEditor />
+                </p:column>
             </p:dataTable>
 
         </h:form>

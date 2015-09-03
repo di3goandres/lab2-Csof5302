@@ -21,38 +21,40 @@ public class MegaMenuView {
      * Creates a new instance of MegaMenuView
      */
     public MegaMenuView() {
-
+        
+        
     }
-
+    
     /**
      * String el cual contendra la orientacion
      */
     private String orientation = "horizontal";
-     //   private String orientation = "vertical";
-
-
+ 
     /**
      * Metodo que retorna la orientacion del menu
-     *
      * @return orientation
      */
     public String getOrientation() {
         return orientation;
     }
-
+ 
     /**
      * metodo que modifica la orientacion del menu
-     *
-     * @param orientation
+     * @param orientation 
      */
     public void setOrientation(String orientation) {
         this.orientation = orientation;
     }
-
-    private MenuModel simpleMenuModel = new DefaultMenuModel();
-
+    
+    
+     private MenuModel simpleMenuModel = new DefaultMenuModel();
+   
+   
+    
     public MenuModel getSimpleMenuModel() {
         return simpleMenuModel;
     }
-
+    
+    
+    
 }

@@ -14,9 +14,14 @@ import com.losalpes.bos.TipoUsuario;
 import com.losalpes.bos.Usuario;
 import com.losalpes.excepciones.AutenticacionException;
 import com.losalpes.servicios.IServicioSeguridad;
+import com.losalpes.servicios.IServicioSession;
 import com.losalpes.servicios.ServicioSeguridadMock;
+import com.losalpes.servicios.ServicioSessionMock;
+import java.util.List;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 /**
@@ -24,6 +29,7 @@ import javax.faces.context.FacesContext;
  *
  */
 @ManagedBean
+@ApplicationScoped
 public class LoginBean {
 
     //-----------------------------------------------------------
@@ -45,9 +51,31 @@ public class LoginBean {
     private IServicioSeguridad servicio;
 
     /**
+     * Realacion con la interfaz adecuada para la session del usuario
+     */
+    private IServicioSession servicioSession;
+
+    /**
      * Determina si existe error o no
      */
     private boolean error;
+
+    /**
+     * Determina el usuario el cual esta logueado actualmente
+     */
+    private Usuario sesionUsuario;
+
+    public Usuario getSesionUsuario() {
+        return sesionUsuario;
+    }
+
+    public Usuario getSesionUsuarioLog() {
+        return sesionUsuario;
+    }
+
+    public void setSesionUsuario(Usuario sesionUsuario) {
+        this.sesionUsuario = sesionUsuario;
+    }
 
     //-----------------------------------------------------------
     // Constructor
@@ -58,6 +86,7 @@ public class LoginBean {
     public LoginBean() {
         error = false;
         servicio = new ServicioSeguridadMock();
+        servicioSession = new ServicioSessionMock();
     }
 
     //-----------------------------------------------------------
@@ -71,7 +100,10 @@ public class LoginBean {
     public String login() {
 
         try {
+
             Usuario user = servicio.login(usuario, contraseña);
+            setSesionUsuario(user);
+            servicioSession.agregarUsuario(user);
             if (user.getTipo() == TipoUsuario.ADMINISTRADOR) {
                 return "welcome.xhtml";
             } else {
@@ -83,6 +115,15 @@ public class LoginBean {
             FacesContext.getCurrentInstance().addMessage("", mensaje);
             return "";
         }
+    }
+
+    public void quit() {
+        setContraseña("");
+        setUsuario("");
+        FacesMessage msg = new FacesMessage("Saliendo", "");
+        FacesContext.getCurrentInstance().addMessage("Salir", msg);
+        setSesionUsuario(null);
+
     }
 
     //-----------------------------------------------------------
